@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+        }
+        #categoriesList div {
+            background-color: #e5e5e5;
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <section id="categorySection">
+        <h2>Manage Categories</h2>
+        
+        <!-- Create Category with ID -->
+        <input type="text" id="categoryIdInput" placeholder="Category ID" />
+        <input type="text" id="categoryNameInput" placeholder="Category Name" />
+        <button id="createCategoryBtn">Create Category</button>
+
+        <!-- Update Category -->
+        <input type="text" id="updateCategoryIdInput" placeholder="Category ID for Update" />
+        <input type="text" id="updateCategoryNameInput" placeholder="New Category Name" />
+        <button id="updateCategoryBtn">Update Category</button>
+
+        <!-- Fetch All Categories -->
+        <button id="fetchCategoriesBtn">Show All Categories</button>
+
+        <!-- Delete Category -->
+        <input type="text" id="deleteCategoryIdInput" placeholder="Category ID for Deletion" />
+        <button id="deleteCategoryBtn">Delete Category</button>
+
+        <!-- Display Categories List -->
+        <div id="categoriesList"></div>
+    </section>
+
+    <script>
+        const apiUrl = 'https://firestore.googleapis.com/v1/projects/inventorydetails-6d9ae/databases/(default)/documents/Category';
+
+        // Create Category with Custom ID
+        async function createCategory(categoryId, categoryName) {
+            const categoryData = {
+                fields: {
+                    name: { stringValue: categoryName }
+                }
+            };
+            try {
+                const response = await fetch(`${apiUrl}/${categoryId}`, {
+                    method: 'PATCH', // or PUT if you prefer, both allow creating with a custom ID
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(categoryData)
+                });
+                if (!response.ok) throw new Error('Failed to create category.');
+                alert('Category created successfully!');
+                fetchAllCategories(); // Refresh category list after creation
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Fetch All Categories
+        async function fetchAllCategories() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('Failed to fetch categories.');
+                const data = await response.json();
+                const categories = data.documents || [];
+
+                const categoriesList = document.getElementById('categoriesList');
+                categoriesList.innerHTML = ''; // Clear the list
+
+                categories.forEach(category => {
+                    const categoryId = category.name.split('/').pop();
+                    const categoryName = category.fields.name.stringValue;
+                    const categoryRow = document.createElement('div');
+                    categoryRow.innerHTML = `
+                        <span>ID: ${categoryId}, Name: ${categoryName}</span>
+                    `;
+                    categoriesList.appendChild(categoryRow);
+                });
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Update Category
+        async function updateCategory(categoryId, newCategoryName) {
+            const url = `${apiUrl}/${categoryId}`;
+            const updatedCategoryData = {
+                fields: {
+                    name: { stringValue: newCategoryName }
+                }
+            };
+            try {
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedCategoryData)
+                });
+                if (!response.ok) throw new Error('Failed to update category.');
+                alert('Category updated successfully!');
+                fetchAllCategories(); // Refresh category list after update
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Delete Category
+        async function deleteCategory(categoryId) {
+            const url = `${apiUrl}/${categoryId}`;
+            try {
+                const response = await fetch(url, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Failed to delete category.');
+                alert('Category deleted successfully!');
+                fetchAllCategories(); // Refresh category list after deletion
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('createCategoryBtn').addEventListener('click', () => {
+            const categoryId = document.getElementById('categoryIdInput').value;
+            const categoryName = document.getElementById('categoryNameInput').value;
+            if (categoryId && categoryName) {
+                createCategory(categoryId, categoryName);
+            } else {
+                alert('Please enter both Category ID and Category Name.');
+            }
+        });
+
+        document.getElementById('fetchCategoriesBtn').addEventListener('click', fetchAllCategories);
+
+        document.getElementById('updateCategoryBtn').addEventListener('click', () => {
+            const categoryId = document.getElementById('updateCategoryIdInput').value;
+            const newCategoryName = document.getElementById('updateCategoryNameInput').value;
+            if (categoryId && newCategoryName) {
+                updateCategory(categoryId, newCategoryName);
+            } else {
+                alert('Please enter both category ID and new category name.');
+            }
+        });
+
+        document.getElementById('deleteCategoryBtn').addEventListener('click', () => {
+            const categoryId = document.getElementById('deleteCategoryIdInput').value;
+            if (categoryId) {
+                deleteCategory(categoryId);
+            } else {
+                alert('Please enter a category ID.');
+            }
+        });
+    </script>
+</body>
+</html>

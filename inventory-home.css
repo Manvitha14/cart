@@ -1,0 +1,277 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+nav {
+    background-color: #000000;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.navTop {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    justify-content: space-between;
+}
+
+.cartAndMenu {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.cart-icon {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+#cartNotification {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#cartNotification.hidden {
+    display: none;
+}
+
+.searchCenter {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.searchInput {
+    border: none;
+    padding: 5px;
+    outline: none;
+    width: 70%;
+    background-color: #222;
+    color: #ffffff;
+}
+
+.logo {
+    flex: 1;
+}
+
+.navBottom {
+    display: none; /* Hide the menu items initially */
+    justify-content: center;
+    background-color: #444;
+    padding: 10px 0;
+}
+
+.menuItem {
+    color: white;
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+.menuItem:hover {
+    background-color: #333;
+}
+
+.slider {
+    position: relative;
+    max-width: 1000px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.sliderWrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.sliderItem {
+    position: relative;
+    width: 300px;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.sliderImg {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.sliderTitle {
+    font-size: 20px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.sliderPrice {
+    font-size: 18px;
+    color: #28a745;
+    margin: 10px 0;
+}
+
+.buyButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.buyButton:hover {
+    background-color: #0056b3;
+}
+
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.bar {
+    height: 3px;
+    width: 25px;
+    background-color: white;
+    margin: 3px 0;
+}
+
+#menuItems {
+    display: none; /* Initially hidden */
+    flex-direction: column; 
+    background-color: #000; 
+    padding: 10px 0;
+}
+
+.menuItem {
+    color: white; 
+    padding: 10px;
+    text-align: center; 
+    cursor: pointer;
+}
+
+.menuItem:hover {
+    background-color: #444; 
+}
+
+@media (max-width: 600px) {
+    .sliderWrapper {
+        flex-direction: column; 
+    }
+
+    .sliderItem {
+        max-width: 90%; 
+        margin: 10px auto; 
+    }
+}
+
+#cartIconContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.cart-modal.hidden {
+    display: none;
+}
+
+.cart-modal ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Product card styling for equal-sized images */
+.product {
+    display: inline-block;
+    width: 250px;
+    margin: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
+    text-align: center;
+}
+
+.product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product h3 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.product p {
+    font-size: 16px;
+    color: #555;
+}
+
+.product button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.product button:hover {
+    background-color: #0056b3;
+}
+
+/* Add this CSS for the new modal */
+#orderDetailsModal {
+    padding: 20px;
+}
+
+#orderForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#orderForm label {
+    margin-top: 10px;
+}
+
+#orderForm input {
+    padding: 8px;
+    margin-bottom: 10px;
+} 
